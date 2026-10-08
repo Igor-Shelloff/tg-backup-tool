@@ -1,11 +1,18 @@
 import json
+import sys
 from pathlib import Path
 from app.config import SETTINGS_FILE, DEFAULT_SETTINGS
 
 
+def _locales_dir():
+    if getattr(sys, "frozen", False):
+        return Path(sys._MEIPASS) / "app" / "locales"
+    return Path(__file__).parent.parent / "locales"
+
+
 class LanguageManager:
     def __init__(self):
-        self.locales_dir = Path(__file__).parent.parent / "locales"
+        self.locales_dir = _locales_dir()
         self.current_lang = "en"
         self.translations = {}
         self.settings = self._load_settings()

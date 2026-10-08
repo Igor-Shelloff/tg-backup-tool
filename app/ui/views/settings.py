@@ -159,12 +159,19 @@ class SettingsView(BaseView):
             )
 
     def _restart_app(self):
+        import subprocess
+        import sys
+
+        if getattr(sys, "frozen", False):
+            subprocess.Popen([sys.executable])
+        else:
+            subprocess.Popen([sys.executable, "main.py"])
+
         try:
             self.app.on_close()
         except Exception:
             pass
-        python = sys.executable
-        os.execl(python, python, *sys.argv)
+        sys.exit(0)
 
     def on_show(self):
         pass
