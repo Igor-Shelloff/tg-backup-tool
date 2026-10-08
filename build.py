@@ -1,12 +1,18 @@
 import os
 import shutil
+import sys
 import PyInstaller.__main__
 
 APP_NAME = "TGBackupTool"
 MAIN_SCRIPT = "main.py"
-ICON_FILE = "icon.ico" if os.name == "nt" and os.path.exists("icon.ico") else None
-
 SEP = ";" if os.name == "nt" else ":"
+
+if sys.platform == "win32":
+    ICON_FILE = "icon.ico" if os.path.exists("icon.ico") else None
+elif sys.platform == "darwin":
+    ICON_FILE = "icon.icns" if os.path.exists("icon.icns") else None
+else:
+    ICON_FILE = None
 
 print("Cleaning previous builds...")
 for folder in ("build", "dist"):
@@ -15,7 +21,6 @@ for folder in ("build", "dist"):
 
 params = [
     f"--name={APP_NAME}",
-    "--onefile",
     "--windowed",
     "--clean",
     "--noconfirm",
@@ -33,7 +38,11 @@ params = [
     "--hidden-import=tkinter.ttk",
 ]
 
-if os.name != "nt":
+if sys.platform == "win32":
+    params.append("--onefile")
+elif sys.platform == "darwin":
+    params.append("--collect-all=cryptg")
+else:
     params.append("--collect-all=cryptg")
 
 if ICON_FILE:
@@ -44,5 +53,9 @@ params.append(MAIN_SCRIPT)
 print("Building with PyInstaller...")
 PyInstaller.__main__.run(params)
 
-exe_path = os.path.join("dist", f"{APP_NAME}.exe" if os.name == "nt" else APP_NAME)
-print(f"\nBuild complete: {exe_path}")
+if sys.platform == "darwin":
+    print(f"\nBuild complete: dist/{APP_NAME}.app")
+elif sys.platform == "win32":
+    print(f"\nBuild complete: dist/{APP_NAME}.exe")
+else:
+    print(f"\nBuild complete: dist/{APP_NAME}")

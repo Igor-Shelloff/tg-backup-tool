@@ -67,8 +67,39 @@ jobs:
           name: linux-build
           path: dist/TGBackupTool
 
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build
+        run: python build.py
+
+      - name: Package .app into ZIP
+        run: |
+          cd dist
+          zip -r -y TGBackupTool-macOS.zip TGBackupTool.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-build
+          path: dist/TGBackupTool-macOS.zip
+
   release:
-    needs: [build-windows, build-linux]
+    needs: [build-windows, build-linux, build-macos]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
@@ -84,6 +115,12 @@ jobs:
           name: linux-build
           path: ./artifacts
 
+      - name: Download macOS build
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-build
+          path: ./artifacts
+
       - name: Rename files
         run: |
           mv ./artifacts/TGBackupTool.exe ./artifacts/TGBackupTool-Windows.exe
@@ -96,4 +133,5 @@ jobs:
           files: |
             ./artifacts/TGBackupTool-Windows.exe
             ./artifacts/TGBackupTool-Linux
+            ./artifacts/TGBackupTool-macOS.zip
           generate_release_notes: true
