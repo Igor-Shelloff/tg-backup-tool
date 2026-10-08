@@ -4,7 +4,9 @@ import PyInstaller.__main__
 
 APP_NAME = "TGBackupTool"
 MAIN_SCRIPT = "main.py"
-ICON_FILE = "icon.ico" if os.path.exists("icon.ico") else None
+ICON_FILE = "icon.ico" if os.name == "nt" and os.path.exists("icon.ico") else None
+
+SEP = ";" if os.name == "nt" else ":"
 
 print("Cleaning previous builds...")
 for folder in ("build", "dist"):
@@ -17,12 +19,11 @@ params = [
     "--windowed",
     "--clean",
     "--noconfirm",
-    "--add-data=app/locales;app/locales",
+    f"--add-data=app/locales{SEP}app/locales",
     "--collect-all=customtkinter",
     "--collect-data=customtkinter",
     "--collect-all=telethon",
     "--collect-all=qrcode",
-    "--collect-all=cryptg",
     "--collect-all=PIL",
     "--hidden-import=PIL",
     "--hidden-import=PIL.Image",
@@ -31,6 +32,9 @@ params = [
     "--hidden-import=tkinter",
     "--hidden-import=tkinter.ttk",
 ]
+
+if os.name != "nt":
+    params.append("--collect-all=cryptg")
 
 if ICON_FILE:
     params.append(f"--icon={ICON_FILE}")
