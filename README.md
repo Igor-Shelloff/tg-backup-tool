@@ -62,8 +62,6 @@ The app uses the official [Telegram API](https://my.telegram.org/) through Telet
 
 </div>
 
-> 💡 Want to add your own screenshots? Place them in `docs/screenshots/` and update the paths above.
-
 ---
 
 ## 🚀 Installation
