@@ -1,0 +1,13 @@
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.session
+*.session-journal
+sessions/
+settings.json
+build/
+dist/
+*.spec
+.idea/
+.vscode/
