@@ -222,4 +222,4 @@ You're free to use, modify and distribute it, including commercially. Attributio
 
 - GitHub: [@Igor-Shelloff](https://github.com/Igor-Shelloff)
 - Telegram: [@igor_shelloff](https://t.me/igor_shelloff)
-- Email: dred.kill93@mail.ru
+- Email: igor.shilov93@mail.ru
