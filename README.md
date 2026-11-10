@@ -201,7 +201,7 @@ If this tool saved you time and you'd like to say thanks:
 
 - ⭐ **Star the repo** — it helps other people find it
 - 🐛 **Report bugs** or suggest features in [Issues](https://github.com/Igor-Shelloff/tg-backup-tool/issues)
-- 💰 **Donate** — [Boosty](https://boosty.to/igorshelloffdev)
+- 💰 **Donate** — [Lava.top](https://app.lava.top/tgsutoposter?tabId=donate) or [Boosty](https://boosty.to/igorshelloffdev)
 - 📩 **Contact** — [@igor_shelloff](https://t.me/igor_shelloff)
 
 Every star and issue helps make the project better.
